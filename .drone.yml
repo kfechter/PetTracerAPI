@@ -13,6 +13,7 @@ steps:
         from_secret: docker_password
     commands:
       - sleep 5 # give docker enough time to start
+      - ls . # i need to know whats in my build directory
       - echo $DOCKER_PASSWORD | docker login --username kfechter --password-stdin
       - DOCKER_BUILDKIT=1 docker build -t kfechter/pettracerapi:latest .
       - docker push --all-tags kfechter/pettracerapi
