@@ -7,8 +7,9 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["PetTracerAPI/PetTracerAPI/PetTracerAPI.csproj", "PetTracerAPI/"]
-RUN dotnet restore "PetTracerAPI/PetTracerAPI.csproj"
+RUN ls
+COPY ["PetTracerAPI/PetTracerAPI.csproj", "PetTracerAPI/"]
+RUN dotnet restore "PetTracerAPI.csproj"
 COPY . .
 WORKDIR "/src/PetTracerAPI"
 RUN dotnet build "PetTracerAPI.csproj" -c Release -o /app/build
