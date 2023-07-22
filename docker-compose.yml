@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  pettracerapi:
+    image: ${DOCKER_REGISTRY-}pettracerapi
+    build:
+      context: .
+      dockerfile: PetTracerAPI/Dockerfile
