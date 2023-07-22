@@ -11,6 +11,7 @@ COPY ["PetTracerAPI.csproj", "PetTracerAPI/"]
 RUN dotnet restore "PetTracerAPI/PetTracerAPI.csproj"
 COPY . .
 WORKDIR "/src/PetTracerAPI"
+RUN ls
 RUN dotnet build "PetTracerAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
