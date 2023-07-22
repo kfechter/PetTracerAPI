@@ -1,0 +1,36 @@
+kind: pipeline
+name: default
+type: docker
+
+steps:
+  - name: build
+    image: docker:dind
+    volumes:
+      - name: dockersock
+        path: /var/run
+    environment:
+      DOCKER_PASSWORD:
+        from_secret: docker_password
+    commands:
+      - sleep 5 # give docker enough time to start
+      - echo $DOCKER_PASSWORD | docker login --username kfechter --password-stdin
+      - DOCKER_BUILDKIT=1 docker build -t kfechter/pettracerapi:latest .
+      - docker push --all-tags kfechter/pettracerapi
+
+services:
+  - name: docker
+    image: docker:dind
+    privileged: true
+    volumes:
+      - name: dockersock
+        path: /var/run
+
+volumes:
+  - name: dockersock
+    temp: {}
+
+trigger:
+  branch:
+    - main
+  event:
+    - push
