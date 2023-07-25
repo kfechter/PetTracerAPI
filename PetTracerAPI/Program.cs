@@ -1,11 +1,20 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using PetTracerAPI.Models;
+using PetTracerAPI.Services;
 
 var firebaseAPIKey = Environment.GetEnvironmentVariable("FirebaseKey");
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Add MongoDB Support
+builder.Services.Configure<PetTracerDatabaseSettings>(
+    builder.Configuration.GetSection("PetTracerDatabase"));
+
+builder.Services.AddSingleton<UsersService>();
+builder.Services.AddSingleton<PetsService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
