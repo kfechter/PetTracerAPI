@@ -69,7 +69,7 @@ var factory = new ConnectionFactory
     {
         Enabled = true,
         ServerName = Environment.GetEnvironmentVariable("RabbitServerName"),
-        CertPath = "/etc/ssl/rabbit/client_docker2.p12",
+        CertPath = "/etc/ssl/rabbit/client.p12",
         CertPassphrase = Environment.GetEnvironmentVariable("RabbitCertPassphrase"),
         Version = System.Security.Authentication.SslProtocols.Tls13
     }
