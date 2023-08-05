@@ -1,10 +1,15 @@
 ﻿using System;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PetTracerAPI.Services;
 
 namespace PetTracerAPI.Controllers
 {
-	public class UserController
-	{
+    [ApiController]
+    [Route("[controller]")]
+    [Authorize]
+    public class UserController : ControllerBase
+    {
         private readonly UsersService _usersService;
         private readonly PetsService _petsservice;
         private readonly ILogger<UserController> _logger;
@@ -16,5 +21,7 @@ namespace PetTracerAPI.Controllers
 			_logger = logger;
 		}
 	}
+
+
 }
 

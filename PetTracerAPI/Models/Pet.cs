@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -11,6 +12,7 @@ namespace PetTracerAPI.Models
         public string? Id { get; set; }
 
         [BsonElement("Name")]
+        [JsonPropertyName("Name")]
         public string PetName { get; set; }
 
 

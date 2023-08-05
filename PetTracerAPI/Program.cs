@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Runtime.Intrinsics.X86;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using PetTracerAPI.Messaging;
 using PetTracerAPI.Models;
 using PetTracerAPI.Services;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
 var firebaseAPIKey = Environment.GetEnvironmentVariable("FirebaseKey");
 
@@ -16,7 +21,11 @@ builder.Services.Configure<PetTracerDatabaseSettings>(
 builder.Services.AddSingleton<UsersService>();
 builder.Services.AddSingleton<PetsService>();
 
-builder.Services.AddControllers();
+builder.Services.AddTransient<RabbitMQConsumer>();
+
+builder.Services.AddControllers()
+    .AddJsonOptions(
+        options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -51,6 +60,33 @@ app.UseAuthorization();
 app.UseAuthentication();
 
 app.MapControllers();
+
+
+var factory = new ConnectionFactory
+{
+    HostName = Environment.GetEnvironmentVariable("RabbitMQHost"),
+    Port = 5671,
+    Ssl = new SslOption()
+    {
+        Enabled = true,
+        ServerName = Environment.GetEnvironmentVariable("RabbitServerName"),
+        CertPath = "/etc/ssl/rabbit/client_docker2.p12",
+        CertPassphrase = Environment.GetEnvironmentVariable("RabbitCertPassphrase"),
+        Version = System.Security.Authentication.SslProtocols.Tls13
+    }
+};
+var connection = factory.CreateConnection();
+using var channel = connection.CreateModel();
+channel.QueueDeclare("tag_responses");
+
+var consumer = new EventingBasicConsumer(channel);
+consumer.Received += (model, eventArgs) =>
+{
+    var body = eventArgs.Body.ToArray();
+    var message = Encoding.UTF8.GetString(body);
+    var consumerService = app.Services.GetRequiredService<RabbitMQConsumer>();
+    consumerService.ConsumeMessage(message);
+};
 
 app.Run();
 
