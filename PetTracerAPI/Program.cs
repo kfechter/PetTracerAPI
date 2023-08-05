@@ -66,7 +66,7 @@ var factory = new ConnectionFactory
     HostName = Environment.GetEnvironmentVariable("RabbitMQHost"),
     Port = 5672,
     VirtualHost = Environment.GetEnvironmentVariable("VHostName"),
-    UserName = Environment.GetEnvironmentVariable("RabbitUsername"),
+    UserName = Environment.GetEnvironmentVariable("RabbitUser"),
     Password = Environment.GetEnvironmentVariable("RabbitPassword")
 };
 var connection = factory.CreateConnection();

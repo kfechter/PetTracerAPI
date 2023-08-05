@@ -13,7 +13,7 @@ namespace PetTracerAPI.Messaging
                 HostName = Environment.GetEnvironmentVariable("RabbitMQHost"),
                 Port = 5672,
                 VirtualHost = Environment.GetEnvironmentVariable("VHostName"),
-                UserName = Environment.GetEnvironmentVariable("RabbitUsername"),
+                UserName = Environment.GetEnvironmentVariable("RabbitUser"),
                 Password = Environment.GetEnvironmentVariable("RabbitPassword")
             };
 
