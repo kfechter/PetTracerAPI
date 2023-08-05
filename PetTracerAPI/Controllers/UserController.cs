@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetTracerAPI.Models;
 using PetTracerAPI.Services;
 
 namespace PetTracerAPI.Controllers
@@ -20,7 +21,20 @@ namespace PetTracerAPI.Controllers
 			_petsservice = petsService;
 			_logger = logger;
 		}
-	}
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetUser(string id)
+        {
+            var user = await _usersService.GetAsync(id);
+
+            if(user == null)
+            {
+                return NotFound();
+            }
+
+            return user!;
+        }
+    }
 
 
 }
