@@ -11,15 +11,8 @@ namespace PetTracerAPI.Messaging
             var rabbitFactory = new ConnectionFactory
             {
                 HostName = Environment.GetEnvironmentVariable("RabbitMQHost"),
-                Port = 5671,
-                Ssl = new SslOption()
-                {
-                    Enabled = true,
-                    ServerName = Environment.GetEnvironmentVariable("RabbitServerName"),
-                    CertPath = "/etc/ssl/rabbit/client.p12",
-                    CertPassphrase = Environment.GetEnvironmentVariable("RabbitCertPassphrase"),
-                    Version = System.Security.Authentication.SslProtocols.Tls13
-                }
+                Port = 5672,
+                VirtualHost = Environment.GetEnvironmentVariable("VHostName")
             };
 
             var connection = rabbitFactory.CreateConnection();
