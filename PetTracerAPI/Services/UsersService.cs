@@ -12,7 +12,7 @@ namespace PetTracerAPI.Services
         public UsersService(IOptions<PetTracerDatabaseSettings> petTracerDatabaseSettings)
 		{
             var mongoClient = new MongoClient($"mongodb://{Environment.GetEnvironmentVariable("MongoServer")}:27017");
-            var mongoDatabase = mongoClient.GetDatabase(petTracerDatabaseSettings.Value.DatabaseName);
+            var mongoDatabase = mongoClient.GetDatabase(Environment.GetEnvironmentVariable("DatabaseName"));
             _usersCollection = mongoDatabase.GetCollection<User>(petTracerDatabaseSettings.Value.UsersCollectionName);
         }
 

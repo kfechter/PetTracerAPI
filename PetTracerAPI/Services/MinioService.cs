@@ -17,7 +17,7 @@ namespace PetTracerAPI.Services
                 .WithSSL(minioSecureMode)
                 .Build();
 
-            var bucketName = "pet-tag-bucket";
+            var bucketName = Environment.GetEnvironmentVariable("BucketName");
             Stream outputStream = new MemoryStream();
             StatObjectArgs statObjectArgs = new StatObjectArgs()
                 .WithBucket(bucketName)

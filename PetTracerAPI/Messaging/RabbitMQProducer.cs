@@ -25,11 +25,13 @@ namespace PetTracerAPI.Messaging
             var connection = rabbitFactory.CreateConnection();
             using var channel = connection.CreateModel();
 
-            channel.QueueDeclare("tag_requests");
+            var requestQueueName = Environment.GetEnvironmentVariable("RequestQueueName");
+
+            channel.QueueDeclare(requestQueueName);
 
             var json = JsonConvert.SerializeObject(message);
             var body = Encoding.UTF8.GetBytes(json);
-            channel.BasicPublish(exchange: "", routingKey: "tag_requests", body: body);
+            channel.BasicPublish(exchange: "", routingKey: requestQueueName, body: body);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Runtime.Intrinsics.X86;
-using System.Text;
+﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using PetTracerAPI.Messaging;
@@ -77,7 +76,7 @@ var factory = new ConnectionFactory
 };
 var connection = factory.CreateConnection();
 using var channel = connection.CreateModel();
-channel.QueueDeclare("tag_responses");
+channel.QueueDeclare(Environment.GetEnvironmentVariable("TagQueueName"));
 
 var consumer = new EventingBasicConsumer(channel);
 consumer.Received += (model, eventArgs) =>
@@ -89,4 +88,3 @@ consumer.Received += (model, eventArgs) =>
 };
 
 app.Run();
-
