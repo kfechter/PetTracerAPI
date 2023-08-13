@@ -55,13 +55,15 @@ namespace PetTracerAPI.Controllers
                 // Register the user
                 User newUser = new()
                 {
-                    Email = email
+                    Email = email,
+                    NewUser = true
                 };
 
                 await _usersService.CreateAsync(newUser);
-                return Ok("NewUser");
+                return newUser;
             }
 
+            user.NewUser = false;
             return user!;
         }
     }

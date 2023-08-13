@@ -34,6 +34,9 @@ namespace PetTracerAPI.Models
 
         public bool? ShowAddressInformation { get; set; }
 
+        [BsonIgnore]
+        public bool? NewUser { get; set; }
+
     }
 }
 
