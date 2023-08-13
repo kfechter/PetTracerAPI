@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetTracerAPI.Messaging;
+using PetTracerAPI.Models;
 using PetTracerAPI.Services;
 
 namespace PetTracerAPI.Controllers
@@ -23,7 +24,28 @@ namespace PetTracerAPI.Controllers
             _messagePublisher = messagePublisher;
         }
 
+        [HttpPost]
+        public async Task<ActionResult> RegisterPet([FromBody] Pet newPet)
+        {
+            newPet.PetHash = "";
+            await _petsservice.CreateAsync(newPet);
+            _messagePublisher.SendMessage(newPet);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeletePet(string id)
+        {
+            var petToDelete = await _petsservice.GetAsync(id);
+            if(petToDelete == null)
+            {
+                return NotFound();
+            }
+
+            await _petsservice.RemoveAsync(id);
+            return NoContent();
+        }
 
 
-	}
+    }
 }

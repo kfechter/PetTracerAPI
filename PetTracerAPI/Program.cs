@@ -19,6 +19,7 @@ builder.Services.Configure<PetTracerDatabaseSettings>(
 
 builder.Services.AddSingleton<UsersService>();
 builder.Services.AddSingleton<PetsService>();
+builder.Services.AddSingleton<NotificationsService>();
 
 builder.Services.AddTransient<RabbitMQConsumer>();
 

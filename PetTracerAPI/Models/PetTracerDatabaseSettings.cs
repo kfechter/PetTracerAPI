@@ -6,5 +6,7 @@ namespace PetTracerAPI.Models
         public string UsersCollectionName { get; set; } = null!;
 
         public string PetsCollectionName { get; set; } = null!;
+
+        public string NotificationsCollectionName { get; set; } = null!;
     }
 }
