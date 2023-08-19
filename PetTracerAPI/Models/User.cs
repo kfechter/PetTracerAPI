@@ -1,10 +1,9 @@
-﻿using System;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace PetTracerAPI.Models
 {
-	public class User
+    public class User
 	{
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -33,7 +32,7 @@ namespace PetTracerAPI.Models
         public bool? FirebaseMessagingEnabled { get; set; }
 
         public bool? ShowAddressInformation { get; set; }
-
+        
         [BsonIgnore]
         public bool? NewUser { get; set; }
 
